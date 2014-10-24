@@ -6,11 +6,11 @@ boolean stopped = false;
 color ink_color = color(240, 135, 0);
 color border_color = color (0);
 color canvas_color = color(255);
-int binary_thre = 200;
+int binary_thre = 130;
 int gradient_power = 12;
 
 void setup(){
-  String file_name = "sample.png";
+  String file_name = "halloween.png";
   img = loadImage(file_name);
   tmp = loadImage(file_name);
   size(img.width, img.height);
@@ -34,9 +34,9 @@ void draw(){
   img.updatePixels();
 }
 
-void mousePressed(){
+void mouseMoved(){
   if(img.get(mouseX, mouseY) == canvas_color){
-    ink_color = gradify(ink_color, 200);
+    ink_color = gradify(ink_color, 10);
     plot_ink(mouseX, mouseY, ink_color);
   }
 }
@@ -90,9 +90,9 @@ void binarize_image(PImage img){
     for(int y = 0; y < img.height; y++){
       color c = img.get(x, y);
       if((red(c) + green(c) + blue(c)) / 3 < binary_thre){
-        img.set(x, y, color(0));
-      }else{
         img.set(x, y, color(255));
+      }else{
+        img.set(x, y, color(0));
       }
     }
   }
@@ -126,7 +126,7 @@ void hide_border(){
   for(int x = 0; x < width; x++){
     for(int y = 0; y < height; y++){
       if(get(x, y) == border_color){
-        set(x, y, color(200));
+        set(x, y, color(255));
       }
     }
   }
