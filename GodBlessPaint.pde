@@ -1,34 +1,44 @@
+//created by Yui Arco Kita
+//http://bluedog.herokuapp.com/godblesspaint
+
 PImage img, tmp, color_ref_img;
-boolean stopped = true;
-color ink_color = color(0, 200, 100);
+boolean stopped = false;
+color ink_color = color(240, 135, 0);
 color border_color = color (0);
 color canvas_color = color(255);
 int binary_thre = 200;
-int gradient_power = 10;
+int gradient_power = 12;
 
 void setup(){
   String file_name = "sample.png";
   img = loadImage(file_name);
   tmp = loadImage(file_name);
-  color_ref_img = loadImage("color_ref_sample.png");
   size(img.width, img.height);
   background(255);
   binarize_image(img);
   binarize_image(tmp);
 }
 
-boolean flag = true;
+boolean delay_flag = false;
 void draw(){
-  if(flag){
-    delay(1000);
+  if(delay_flag){
+    delay(10000);
   }
   if(stopped){
-    plot_ink(ink_color);
+    PVector not_yet = search_canvas_area();
+    plot_ink((int)not_yet.x, (int)not_yet.y, ink_color);
   }
   proc();
-  println(stopped);
   image(img, 0, 0);
+  hide_border();
   img.updatePixels();
+}
+
+void mousePressed(){
+  if(img.get(mouseX, mouseY) == canvas_color){
+    ink_color = gradify(ink_color, 200);
+    plot_ink(mouseX, mouseY, ink_color);
+  }
 }
 
 void proc(){
@@ -57,7 +67,7 @@ void proc(){
           if(random(100) < 90){
             continue;
           }
-          color fill_color = gradify(center_color);
+          color fill_color = gradify(center_color, gradient_power);
           img.set(focus_x, focus_y, fill_color);
           stopped = false;
         }
@@ -88,7 +98,7 @@ void binarize_image(PImage img){
   }
 }
 
-color gradify(color c){
+color gradify(color c, int gradient_power){
   //tune here yourself
   return color(
   red(c) + random(-gradient_power / 2, gradient_power / 2 + 1),
@@ -96,21 +106,30 @@ color gradify(color c){
   blue(c)+random(-gradient_power, gradient_power + 1));
 }
 
-void plot_ink(color ink_color){
+PVector search_canvas_area(){
   for(int x = 0; x < tmp.width; x++){
     for(int y = 0; y < tmp.height; y++){
       color focus_color = tmp.get(x, y);
       if(focus_color == canvas_color){
-        img.set(x, y, ink_color);
-        println(x, y);
-        return;
+        return new PVector(x, y);
       }
     }
   }
+  return new PVector(0, 0);
 }
 
-void mousePressed(){
-  tmp.set(mouseX, mouseY, color(255, 0, 0));
+void plot_ink(int x, int y, color ink_color){
+  img.set(x, y, ink_color);
+}
+
+void hide_border(){
+  for(int x = 0; x < width; x++){
+    for(int y = 0; y < height; y++){
+      if(get(x, y) == border_color){
+        set(x, y, color(200));
+      }
+    }
+  }
 }
 
 void keyPressed(){
@@ -119,7 +138,7 @@ void keyPressed(){
   }else if(key == 'A'){
     gradient_power--;
   }else if(key == 'b'){
-    flag = false;
+    delay_flag = !delay_flag;
   }
   println(gradient_power);
 }
