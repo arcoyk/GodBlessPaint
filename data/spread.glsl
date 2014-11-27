@@ -11,6 +11,10 @@ uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
+float rand(vec2 co){
+  return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
 void main(void) {
   // Grouping texcoord variables in order to make it work in the GMA 950. See post #13
   // in this thread:
@@ -35,8 +39,50 @@ void main(void) {
   vec4 col7 = texture2D(texture, tc7);
   vec4 col8 = texture2D(texture, tc8);
 
-  vec4 sum = (1.0 * col0 + 2.0 * col1 + 1.0 * col2 +  
-              2.0 * col3 + 4.0 * col4 + 2.0 * col5 +
-              1.0 * col6 + 2.0 * col7 + 1.0 * col8) / 16.0;            
-  gl_FragColor = vec4(sum.rgb, 1.0) * vertColor;  
+  float div = 15.0;
+  float cnt = 0.0;
+  vec4 average = vec4(0.0, 0.0, 0.0, 1.0);
+  if (col0 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col0;
+      cnt++;
+  }
+  if (col1 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col1;
+      cnt++;
+  }
+  if (col2 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col2;
+      cnt++;
+  }
+  if (col3 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col3;
+      cnt++;      
+  }
+  if (col4 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col4;
+      cnt++;
+  }
+  if (col5 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col5;
+      cnt++;
+  }
+  if (col6 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col6;
+      cnt++;
+  }
+  if (col7 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col7;
+      cnt++;
+  }
+  if (col8 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col8;
+      cnt++;
+  }
+
+  vec4 result = vec4(1.0, 1.0, 1.0, 1.0);
+  if (cnt != 0.0) {
+    result = vec4(1.0, 0.0, 0.0, 1.0);
+  }
+
+  gl_FragColor = vec4(result.rgb, 1.0) * vertColor;
 }
