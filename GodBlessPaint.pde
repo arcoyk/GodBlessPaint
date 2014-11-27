@@ -13,7 +13,7 @@ void setup(){
   String file_name = "sample.png";
   img = loadImage(file_name);
   tmp = loadImage(file_name);
-  size(img.width, img.height);
+  size(img.width, img.height, P2D);
   background(255);
   binarize_image(img);
   binarize_image(tmp);
