@@ -40,49 +40,52 @@ void main(void) {
   vec4 col8 = texture2D(texture, tc8);
 
   float div = 15.0;
-  float cnt = 0.0;
+  int cnt = 0;
   vec4 average = vec4(0.0, 0.0, 0.0, 1.0);
-  if (col0 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col0;
-      cnt++;
-  }
-  if (col1 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col1;
-      cnt++;
-  }
-  if (col2 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col2;
-      cnt++;
-  }
-  if (col3 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col3;
-      cnt++;      
-  }
-  if (col4 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col4;
-      cnt++;
-  }
-  if (col5 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col5;
-      cnt++;
-  }
-  if (col6 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col6;
-      cnt++;
-  }
-  if (col7 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col7;
-      cnt++;
-  }
-  if (col8 != vec4(1.0, 1.0, 1.0, 1.0)) {
-      average += col8;
-      cnt++;
-  }
+  float thre = 20.0;
 
-  vec4 result = vec4(1.0, 1.0, 1.0, 1.0);
-  if (cnt != 0.0) {
-    result = vec4(1.0, 0.0, 0.0, 1.0);
-  }
+    if (col0 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col0;
+        cnt++;
+    }
+    if (col1 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col1;
+        cnt++;
+    }
+    if (col2 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col2;
+        cnt++;
+    }
+    if (col3 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col3;
+        cnt++;      
+    }
+    if (col4 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col4;
+        cnt++;
+    }
+    if (col5 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col5;
+        cnt++;
+    }
+    if (col6 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col6;
+        cnt++;
+    }
+    if (col7 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col7;
+        cnt++;
+    }
+    if (col8 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
+        average += col8;
+        cnt++;
+    }
 
-  gl_FragColor = vec4(result.rgb, 1.0) * vertColor;
+    vec4 res = col4;
+    if (cnt != 0) {
+      res = vec4( average.rgb / (float(cnt) - 0.008), 1.0);
+    }
+
+    gl_FragColor = vec4(res.rgb, 1.0) * vertColor;
+
 }

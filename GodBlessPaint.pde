@@ -3,6 +3,7 @@
 
 PShader shader;
 PGraphics graphic;
+color c;
 
 void setup() {
   size(600, 600, P2D);
@@ -10,16 +11,26 @@ void setup() {
   color c = color(255, 0, 0);
   graphic.set(width / 2, height /2, c);
   shader = loadShader("spread.glsl");
-  background(255);
+  graphic.beginDraw();
+  graphic.background(255);
+  graphic.endDraw();
 }
 
 void draw() {
   graphic.beginDraw();
   graphic.noFill();
-  //graphic.background(255);
-  graphic.stroke(255, 0, 0);
-  graphic.ellipse(mouseX, mouseY, 100, 100);
   graphic.filter(shader);
   graphic.endDraw();
   image(graphic, 0, 0, width, height);
+}
+
+void mouseDragged() {
+  graphic.beginDraw();
+  graphic.stroke(c);
+  graphic.ellipse(mouseX, mouseY, 10, 10);
+  graphic.endDraw();
+}
+
+void mousePressed() {
+  c = color((int)random(255),(int)random(255),(int)random(255));
 }
