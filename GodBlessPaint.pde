@@ -16,12 +16,12 @@ void setup() {
   plot_random();
   graphic.endDraw();
 }
-float offset = 0.03;
+float offset = 100;
 void draw() {
   shader.set("timer", random(255));
-  shader.set("r1", random(-offset,offset));
-  shader.set("r2", random(-offset,offset));
-  shader.set("r3", random(-offset,offset));
+  shader.set("r1", random(offset));
+  shader.set("r2", random(offset));
+  shader.set("r3", random(offset));
   graphic.beginDraw();
   graphic.noFill();
   graphic.filter(shader);

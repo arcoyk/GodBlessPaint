@@ -43,8 +43,11 @@ void main(void) {
     vec4 col7 = texture2D(texture, tc7);
     vec4 col8 = texture2D(texture, tc8);
 
+    float rr1 = mod(rand(vec2( vertTexCoord.x + r1, vertTexCoord.y + r1)), 0.0002);
+    float rr2 = mod(rand(vec2( vertTexCoord.x + r2, vertTexCoord.y + r2)), 0.0002);
+    float rr3 = mod(rand(vec2( vertTexCoord.x + r3, vertTexCoord.y + r3)), 0.0002);
 
-  if ( col4 == vec4(1.0, 1.0, 1.0, 1.0) && rand(vec2( vertTexCoord.x + timer, vertTexCoord.y + timer)) * 100.0 < 50.0) {
+  if ( col4 == vec4(1.0, 1.0, 1.0, 1.0) && rand(vec2( vertTexCoord.x + timer, vertTexCoord.y + timer)) * 100.0 < 60.0) {
 
     float div = 15.0;
     int cnt = 0;
@@ -91,9 +94,9 @@ void main(void) {
       vec4 res = col4;
       if (cnt != 0) {
         res = vec4( average.rgb / (float(cnt)), 1.0);
-        res.r += r1;
-        res.g += r2;
-        res.b += r3;
+        res.r += rr1;
+        res.g += rr2;
+        res.b += rr3;
       }
 
       gl_FragColor = vec4(res.rgb, 1.0) * vertColor;
