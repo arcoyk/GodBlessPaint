@@ -17,6 +17,7 @@ void setup() {
 }
 
 void draw() {
+  shader.set("timer", random(255));
   graphic.beginDraw();
   graphic.noFill();
   graphic.filter(shader);

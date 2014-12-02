@@ -7,6 +7,7 @@ precision mediump int;
 
 uniform sampler2D texture;
 uniform vec2 texOffset;
+uniform float timer;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
@@ -19,73 +20,80 @@ void main(void) {
   // Grouping texcoord variables in order to make it work in the GMA 950. See post #13
   // in this thread:
   // http://www.idevgames.com/forums/thread-3467.html
-  vec2 tc0 = vertTexCoord.st + vec2(-texOffset.s, -texOffset.t);
-  vec2 tc1 = vertTexCoord.st + vec2(         0.0, -texOffset.t);
-  vec2 tc2 = vertTexCoord.st + vec2(+texOffset.s, -texOffset.t);
-  vec2 tc3 = vertTexCoord.st + vec2(-texOffset.s,          0.0);
-  vec2 tc4 = vertTexCoord.st + vec2(         0.0,          0.0);
-  vec2 tc5 = vertTexCoord.st + vec2(+texOffset.s,          0.0);
-  vec2 tc6 = vertTexCoord.st + vec2(-texOffset.s, +texOffset.t);
-  vec2 tc7 = vertTexCoord.st + vec2(         0.0, +texOffset.t);
-  vec2 tc8 = vertTexCoord.st + vec2(+texOffset.s, +texOffset.t);
 
-  vec4 col0 = texture2D(texture, tc0);
-  vec4 col1 = texture2D(texture, tc1);
-  vec4 col2 = texture2D(texture, tc2);
-  vec4 col3 = texture2D(texture, tc3);
-  vec4 col4 = texture2D(texture, tc4);
-  vec4 col5 = texture2D(texture, tc5);
-  vec4 col6 = texture2D(texture, tc6);
-  vec4 col7 = texture2D(texture, tc7);
-  vec4 col8 = texture2D(texture, tc8);
 
-  float div = 15.0;
-  int cnt = 0;
-  vec4 average = vec4(0.0, 0.0, 0.0, 1.0);
-  float thre = 20.0;
+    vec2 tc0 = vertTexCoord.st + vec2(-texOffset.s, -texOffset.t);
+    vec2 tc1 = vertTexCoord.st + vec2(         0.0, -texOffset.t);
+    vec2 tc2 = vertTexCoord.st + vec2(+texOffset.s, -texOffset.t);
+    vec2 tc3 = vertTexCoord.st + vec2(-texOffset.s,          0.0);
+    vec2 tc4 = vertTexCoord.st + vec2(         0.0,          0.0);
+    vec2 tc5 = vertTexCoord.st + vec2(+texOffset.s,          0.0);
+    vec2 tc6 = vertTexCoord.st + vec2(-texOffset.s, +texOffset.t);
+    vec2 tc7 = vertTexCoord.st + vec2(         0.0, +texOffset.t);
+    vec2 tc8 = vertTexCoord.st + vec2(+texOffset.s, +texOffset.t);
 
-    if (col0 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col0;
-        cnt++;
-    }
-    if (col1 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col1;
-        cnt++;
-    }
-    if (col2 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col2;
-        cnt++;
-    }
-    if (col3 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col3;
-        cnt++;      
-    }
-    if (col4 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col4;
-        cnt++;
-    }
-    if (col5 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col5;
-        cnt++;
-    }
-    if (col6 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col6;
-        cnt++;
-    }
-    if (col7 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col7;
-        cnt++;
-    }
-    if (col8 != vec4(1.0, 1.0, 1.0, 1.0) && mod(rand(vertTexCoord.xy) * 100.0, 10.0) < thre) {
-        average += col8;
-        cnt++;
-    }
+    vec4 col0 = texture2D(texture, tc0);
+    vec4 col1 = texture2D(texture, tc1);
+    vec4 col2 = texture2D(texture, tc2);
+    vec4 col3 = texture2D(texture, tc3);
+    vec4 col4 = texture2D(texture, tc4);
+    vec4 col5 = texture2D(texture, tc5);
+    vec4 col6 = texture2D(texture, tc6);
+    vec4 col7 = texture2D(texture, tc7);
+    vec4 col8 = texture2D(texture, tc8);
 
-    vec4 res = col4;
-    if (cnt != 0) {
-      res = vec4( average.rgb / (float(cnt) - 0.008), 1.0);
+
+  if ( rand(vec2( mod(vertTexCoord.x, timer), mod(vertTexCoord.y, timer))) * 100.0 < 50.0) {
+
+    float div = 15.0;
+    int cnt = 0;
+    vec4 average = vec4(0.0, 0.0, 0.0, 1.0);
+    float thre = 20.0;
+
+      if (col0 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col0;
+          cnt++;
+      }
+      if (col1 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col1;
+          cnt++;
+      }
+      if (col2 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col2;
+          cnt++;
+      }
+      if (col3 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col3;
+          cnt++;      
+      }
+      if (col4 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col4;
+          cnt++;
+      }
+      if (col5 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col5;
+          cnt++;
+      }
+      if (col6 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col6;
+          cnt++;
+      }
+      if (col7 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col7;
+          cnt++;
+      }
+      if (col8 != vec4(1.0, 1.0, 1.0, 1.0)) {
+          average += col8;
+          cnt++;
+      }
+
+      vec4 res = col4;
+      if (cnt != 0) {
+        res = vec4( average.rgb / (float(cnt)) + 0.001, 1.0);
+      }
+
+      gl_FragColor = vec4(res.rgb, 1.0) * vertColor;
+    } else {
+      gl_FragColor = vec4(col4.rgb, 1.0) * vertColor;
     }
-
-    gl_FragColor = vec4(res.rgb, 1.0) * vertColor;
-
 }
