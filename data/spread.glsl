@@ -8,6 +8,7 @@ precision mediump int;
 uniform sampler2D texture;
 uniform vec2 texOffset;
 uniform float timer;
+uniform float r1, r2, r3;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
@@ -43,7 +44,7 @@ void main(void) {
     vec4 col8 = texture2D(texture, tc8);
 
 
-  if ( rand(vec2( mod(vertTexCoord.x, timer), mod(vertTexCoord.y, timer))) * 100.0 < 50.0) {
+  if ( col4 == vec4(1.0, 1.0, 1.0, 1.0) && rand(vec2( vertTexCoord.x + timer, vertTexCoord.y + timer)) * 100.0 < 50.0) {
 
     float div = 15.0;
     int cnt = 0;
@@ -89,7 +90,10 @@ void main(void) {
 
       vec4 res = col4;
       if (cnt != 0) {
-        res = vec4( average.rgb / (float(cnt)) + 0.001, 1.0);
+        res = vec4( average.rgb / (float(cnt)), 1.0);
+        res.r += r1;
+        res.g += r2;
+        res.b += r3;
       }
 
       gl_FragColor = vec4(res.rgb, 1.0) * vertColor;
