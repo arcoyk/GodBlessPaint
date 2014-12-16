@@ -47,13 +47,34 @@ void main(void) {
     float rr2 = mod(rand(vec2( vertTexCoord.x + r2, vertTexCoord.y + r2)), 0.0002);
     float rr3 = mod(rand(vec2( vertTexCoord.x + r3, vertTexCoord.y + r3)), 0.0002);
 
-  if ( col4 == vec4(1.0, 1.0, 1.0, 1.0) && rand(vec2( vertTexCoord.x + timer, vertTexCoord.y + timer)) * 100.0 < 60.0) {
+    // col4 == vec4(1.0, 1.0, 1.0, 1.0) && 
+  if ( rand(vec2( vertTexCoord.x + timer, vertTexCoord.y + timer)) * 100.0 < 60.0) {
 
     float div = 15.0;
-    int cnt = 0;
+    float cnt = 0.0;
     vec4 average = vec4(0.0, 0.0, 0.0, 1.0);
     float thre = 20.0;
 
+    average += col0;
+    cnt += 1.0;
+    average += col1;
+    cnt += 1.0;
+    average += col2;
+    cnt += 1.0;
+    average += col3;
+    cnt += 1.0;
+    average += col5;
+    cnt += 1.0;
+    average += col6;
+    cnt += 1.0;
+    average += col7;
+    cnt += 1.0;
+    average += col8;
+    cnt += 1.0;
+
+    cnt += 0.01;
+
+    /*
       if (col0 != vec4(1.0, 1.0, 1.0, 1.0)) {
           average += col0;
           cnt++;
@@ -90,9 +111,10 @@ void main(void) {
           average += col8;
           cnt++;
       }
+    */
 
       vec4 res = col4;
-      if (cnt != 0) {
+      if (cnt != 0.0) {
         res = vec4( average.rgb / (float(cnt)), 1.0);
         res.r += rr1;
         res.g += rr2;

@@ -23,7 +23,6 @@ void draw() {
   shader.set("r2", random(offset));
   shader.set("r3", random(offset));
   graphic.beginDraw();
-  graphic.noFill();
   graphic.filter(shader);
   graphic.endDraw();
   image(graphic, 0, 0, width, height);
