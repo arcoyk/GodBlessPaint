@@ -5,7 +5,7 @@ PShader shader;
 PGraphics graphic;
 color c;
 
-PImage img = loadImage("/users/yui/desktop/amelie.png");
+PImage img = loadImage("/users/kitayui/desktop/paint.png");
 
 void setup() {
   size(600, 600, P2D);
@@ -21,7 +21,7 @@ void setup() {
 
 float offset = 100;
 void draw() {
-  // shader.set("timer", random(255));
+  shader.set("timer", random(10));
   graphic.beginDraw();
   graphic.filter(shader);
   graphic.endDraw();

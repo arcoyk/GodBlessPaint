@@ -17,10 +17,9 @@ float rand(vec2 co){
 }
 
 void main(void) {
-  // skip random pixel
   vec2 tc4 = vertTexCoord.st + vec2(         0.0,          0.0);
   vec4 col4 = texture2D(texture, tc4);
-  if (mod(rand(gl_FragCoord.xy), 2.0) < 1.0) {
+  if (mod(rand(gl_FragCoord.xy) * 10.0, timer) < 1.0) {
     // coordinates of surrounded pixels around focused pixcel (= vertTexCoord)
     vec2 tc0 = vertTexCoord.st + vec2(-texOffset.s, -texOffset.t);
     vec2 tc1 = vertTexCoord.st + vec2(         0.0, -texOffset.t);
@@ -41,49 +40,47 @@ void main(void) {
     vec4 col7 = texture2D(texture, tc7);
     vec4 col8 = texture2D(texture, tc8);
 
-    if (col4 == vec4(1.0, 1.0, 1.0, 1.0)) {
+    float cnt = 0.0;
+    vec4 average = vec4(0.0, 0.0, 0.0, 1.0);
 
-      float cnt = 0.0;
-      vec4 average = vec4(0.0, 0.0, 0.0, 1.0);
-
-      if (col0 != vec4(1.0, 1.0, 1.0, 1.0)) {
-        average += col0;
-        cnt += 1.0;
-      }
-      if (col1 != vec4(1.0, 1.0, 1.0, 1.0)) {
-        average += col1;
-        cnt += 1.0;
-      }
-      if (col2 != vec4(1.0, 1.0, 1.0, 1.0)) {
-        average += col2;
-        cnt += 1.0;
-      }
-      if (col3 != vec4(1.0, 1.0, 1.0, 1.0)) {
-        average += col3;
-        cnt += 1.0;
-      }
-      if (col5 != vec4(1.0, 1.0, 1.0, 1.0)) {
-        average += col5;
-        cnt += 1.0;
-      }
-      if (col6 != vec4(1.0, 1.0, 1.0, 1.0)) {
-        average += col6;
-        cnt += 1.0;
-      }
-      if (col7 != vec4(1.0, 1.0, 1.0, 1.0)) {
-        average += col7;
-        cnt += 1.0;
-      }
-      if (col8 != vec4(1.0, 1.0, 1.0, 1.0)) {
-        average += col8;
-        cnt += 1.0;
-      }
-
-      if (cnt != 0.0) {
-        col4 = vec4( average.rgb / (float(cnt)), 1.0);
-      }
-      gl_FragColor = col4;
+    if (col0 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col0;
+      cnt += 1.0;
     }
+    if (col1 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col1;
+      cnt += 1.0;
+    }
+    if (col2 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col2;
+      cnt += 1.0;
+    }
+    if (col3 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col3;
+      cnt += 1.0;
+    }
+    if (col5 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col5;
+      cnt += 1.0;
+    }
+    if (col6 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col6;
+      cnt += 1.0;
+    }
+    if (col7 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col7;
+      cnt += 1.0;
+    }
+    if (col8 != vec4(1.0, 1.0, 1.0, 1.0)) {
+      average += col8;
+      cnt += 1.0;
+    }
+
+    if (cnt != 0.0) {
+      col4 = vec4( average.rgb / (float(cnt)), 1.0);
+    }
+    gl_FragColor = col4;
+
   } else {
     gl_FragColor = col4;
   }
