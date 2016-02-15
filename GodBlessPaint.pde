@@ -5,6 +5,8 @@ PShader shader;
 PGraphics graphic;
 color c;
 
+PImage img = loadImage("/users/yui/desktop/amelie.png");
+
 void setup() {
   size(600, 600, P2D);
   graphic = createGraphics(600, 600, P2D);
@@ -16,12 +18,10 @@ void setup() {
   plot_random();
   graphic.endDraw();
 }
+
 float offset = 100;
 void draw() {
-  shader.set("timer", random(255));
-  shader.set("r1", random(offset));
-  shader.set("r2", random(offset));
-  shader.set("r3", random(offset));
+  // shader.set("timer", random(255));
   graphic.beginDraw();
   graphic.filter(shader);
   graphic.endDraw();
@@ -45,6 +45,14 @@ void plot_random() {
   }
 }
 
+void mouseMoved() {
+  graphic.beginDraw();
+  graphic.ellipse(mouseX, mouseY, 10, 10);
+  graphic.image(img, 0, 0);
+  graphic.endDraw();
+}
+
 void mousePressed() {
   c = color((int)random(255),(int)random(255),(int)random(255));
+  plot_random();
 }
